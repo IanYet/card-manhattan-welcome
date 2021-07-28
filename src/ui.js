@@ -13,6 +13,10 @@ const store = {
     user: [],
     queryIntervalId: '',
     roomStatus: '',
+    getUrl: () => {
+        // console.log(store.roomkey)
+        return `http://localhost:9000/${store.roomkey}/${store.self.userId}`
+    },
 }
 
 function ui() {
@@ -111,6 +115,7 @@ function ui() {
                     if (data.data === 'ok') {
                         clearInterval(store.queryIntervalId)
                         //翻页
+                        window.location = store.getUrl()
                     } else {
                         inputMsg.innerText = data.data
                     }
@@ -136,13 +141,17 @@ function ui() {
                         store.roomStatus = roomStatus
                         store.user = user
 
-                        user.filter(
-                            (color) => color !== store.self.color
-                        ).forEach((color, idx) => {
-                            document.querySelector(
-                                `#seat${idx + 1}`
-                            ).style.backgroundColor = store.colorMap[color]
-                        })
+                        if (roomStatus === 'waiting') {
+                            user.filter(
+                                (color) => color !== store.self.color
+                            ).forEach((color, idx) => {
+                                document.querySelector(
+                                    `#seat${idx + 1}`
+                                ).style.backgroundColor = store.colorMap[color]
+                            })
+                        } else {
+                            window.location = store.getUrl()
+                        }
                     })
                     .then(() => {
                         if (store.user.length >= 3) {
