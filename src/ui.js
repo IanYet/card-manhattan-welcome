@@ -15,7 +15,7 @@ const store = {
     roomStatus: '',
     getUrl: () => {
         // console.log(store.roomkey)
-        return `http://localhost:9000/${store.roomkey}?userId=${store.self.userId}`
+        return `http://localhost:3000/${store.roomkey}?userId=${store.self.userId}`
     },
 }
 
