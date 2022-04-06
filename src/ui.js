@@ -15,7 +15,7 @@ const store = {
     roomStatus: '',
     getUrl: () => {
         // console.log(store.roomkey)
-        return `http://192.168.0.37:3000/${store.roomkey}?userId=${store.self.userId}`
+        return `http://127.0.0.1:9000/${store.roomkey}?userId=${store.self.userId}`
     },
 }
 
@@ -30,7 +30,7 @@ function ui() {
             const inputMsg = document.querySelector('#inputMsg')
 
             axios
-                .get('http://192.168.0.37:9000/createRoom')
+                .get('http://127.0.0.1:9000/createRoom')
                 .then((data) => {
                     const { roomKey, color, userId } = data.data
                     store.self = { color, userId }
@@ -72,7 +72,7 @@ function ui() {
                 return (inputMsg.innerText = '房间码格式不正确')
 
             axios
-                .get(`http://192.168.0.37:9000/${roomKey}/join`)
+                .get(`http://127.0.0.1:9000/${roomKey}/join`)
                 .then((data) => {
                     if (data.data.userId) {
                         const { color, userId, user } = data.data
@@ -110,7 +110,7 @@ function ui() {
             }
 
             axios
-                .get(`http://192.168.0.37:9000/${store.roomkey}/start`)
+                .get(`http://127.0.0.1:9000/${store.roomkey}/start`)
                 .then((data) => {
                     if (data.data === 'ok') {
                         clearInterval(store.queryIntervalId)
@@ -129,7 +129,7 @@ function ui() {
 
             return setInterval(() => {
                 axios
-                    .get(`http://192.168.0.37:9000/${store.roomkey}/status`)
+                    .get(`http://127.0.0.1:9000/${store.roomkey}/status`)
                     .then((data) => {
                         const { roomStatus, user } = data.data
                         if (!roomStatus) {
